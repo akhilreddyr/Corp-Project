@@ -1,0 +1,27 @@
+Phase - 1 : 
+Create infra for the project 
+create a vpc - for all instances to be in the same private connection. 
+here usign a default vpc that is provided with the account for the region 
+
+- create 3 isntance ec2 t2.medium 25gb with open ports as below 
+- switch to sudo and run the below script 
+Note : to be run on both master and slave 
+
+sudo apt-get update
+
+sudo apt install docker.io -y
+sudo chmod 666 /var/run/docker.sock
+
+sudo apt-get install -y apt-transport-https ca-certificates curl gnupg
+sudo mkdir -p -m 755 /etc/apt/keyrings
+
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+sudo apt update
+  
+sudo apt install -y kubeadm=1.28.1-1.1 kubelet=1.28.1-1.1 kubectl=1.28.1-1.1  
+  
+  
+Only master node 
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16 
